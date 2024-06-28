@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login_screen/auth/controller/auth_controller.dart';
 import 'package:login_screen/auth/screens/sign_up_screen.dart';
 import 'package:login_screen/utils/snackbar.dart';
+import 'package:login_screen/widgets/gradient_button.dart';
 import 'package:login_screen/widgets/loading_indicator.dart';
+import 'package:login_screen/widgets/login_field.dart'; // Import your LoginField widget
 
 import 'home_screen.dart';
 
@@ -61,31 +63,75 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
       body: authState is AsyncLoading
           ? const LoadingIndicator()
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                  ),
-                  TextField(
-                    controller: passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                  ),
-                  ElevatedButton(
-                    onPressed: _handleSignIn,
-                    child: const Text('Login'),
-                  ),
-                  TextButton(
-                    onPressed: _navigateToSignUp,
-                    child: const Text('Sign Up'),
-                  ),
-                ],
+          : SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: Image.asset('assets/images/balls.png'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'Sign In',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: Column(
+                        children: [
+                          LoginField(
+                            hintText: 'Email',
+                            onChanged: (value) {
+                              emailController.text = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          LoginField(
+                            hintText: 'Password',
+                            obscureText: true,
+                            onChanged: (value) {
+                              passwordController.text = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GradientButton(
+                            onPressed: _handleSignIn,
+                            label: 'Sign in',
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: _navigateToSignUp,
+                                child: const Text('Sign Up'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );

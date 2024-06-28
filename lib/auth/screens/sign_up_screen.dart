@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login_screen/auth/controller/auth_controller.dart';
 import 'package:login_screen/utils/snackbar.dart';
+import 'package:login_screen/widgets/gradient_button.dart';
 import 'package:login_screen/widgets/loading_indicator.dart';
+import 'package:login_screen/widgets/login_field.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -19,6 +21,10 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
     Navigator.pop(context, email);
   }
 
+  void _navigateToSignIn(BuildContext context) {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
@@ -33,32 +39,80 @@ class SignupScreenState extends ConsumerState<SignupScreen> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
       body: authState is AsyncLoading
           ? const LoadingIndicator()
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                  ),
-                  TextField(
-                    controller: passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await ref.read(authControllerProvider.notifier).signUp(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                          );
-                    },
-                    child: const Text('Sign Up'),
-                  ),
-                ],
+          : SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: Image.asset('assets/images/balls.png'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: Column(
+                        children: [
+                          LoginField(
+                            hintText: 'Email',
+                            onChanged: (value) {
+                              emailController.text = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          LoginField(
+                            hintText: 'Password',
+                            obscureText: true,
+                            onChanged: (value) {
+                              passwordController.text = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GradientButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(authControllerProvider.notifier)
+                                  .signUp(
+                                    emailController.text.trim(),
+                                    passwordController.text.trim(),
+                                  );
+                            },
+                            label: 'Sign Up',
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () => _navigateToSignIn(context),
+                                child: const Text('Sign In'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );
