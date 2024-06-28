@@ -7,11 +7,11 @@ class LoginField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
 
   const LoginField({
-    Key? key,
+    super.key,
     required this.hintText,
     this.obscureText = false,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

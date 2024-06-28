@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:login_screen/auth/controller/auth_controller.dart';
-
+import 'package:login_screen/theme/pallete.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -13,12 +13,13 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        backgroundColor: Pallete.backgroundColor,
+        title: const Text('HomePage'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: ()  {
-               authController.signOut();
+            onPressed: () {
+              authController.signOut();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -28,7 +29,13 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: const Center(
-        child: Text('Welcome!'),
+        child: Text(
+          'Welcome!',
+          style: TextStyle(
+              fontSize: 25,
+              color: Pallete.whiteColor,
+              fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

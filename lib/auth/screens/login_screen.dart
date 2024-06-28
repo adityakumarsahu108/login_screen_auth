@@ -7,8 +7,7 @@ import 'package:login_screen/auth/screens/sign_up_screen.dart';
 import 'package:login_screen/utils/snackbar.dart';
 import 'package:login_screen/widgets/gradient_button.dart';
 import 'package:login_screen/widgets/loading_indicator.dart';
-import 'package:login_screen/widgets/login_field.dart'; // Import your LoginField widget
-
+import 'package:login_screen/widgets/login_field.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -25,14 +24,18 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   void _navigateToHome() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ),
     );
   }
 
   Future<void> _navigateToSignUp() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SignupScreen()),
+      MaterialPageRoute(
+        builder: (context) => const SignupScreen(),
+      ),
     );
     if (result != null && result is String) {
       emailController.text = result;
@@ -48,7 +51,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       await ref.read(authControllerProvider.notifier).signIn(email, password);
       _navigateToHome();
     } catch (e) {
-      showErrorSnackbar(context, 'User does not exist. Please sign up first.');
+      showErrorSnackbar(context, 'User does not exist.Please sign up.');
     }
   }
 
