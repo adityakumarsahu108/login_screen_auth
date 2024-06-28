@@ -89,7 +89,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       height: 50,
                     ),
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
+                      constraints: const BoxConstraints(maxWidth: 380),
                       child: Column(
                         children: [
                           LoginField(
